@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/home/appuser/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=djangogirls
+      - POSTGRES_USER=djangogirls
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  postgres_data:
